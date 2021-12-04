@@ -1,6 +1,6 @@
-package com.springboot.ipldashboard.data.processor;
+package com.springboot.ipldashboard.loaddata.processor;
 
-import com.springboot.ipldashboard.data.MatchInput;
+import com.springboot.ipldashboard.loaddata.data.MatchInput;
 import com.springboot.ipldashboard.model.Match;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.batch.item.ItemProcessor;
@@ -25,11 +25,11 @@ public class MatchDataProcessor implements ItemProcessor<MatchInput, Match> {
         if(matchInput.getToss_decision().equals("bat")) {
             firstInnTeam = matchInput.getToss_winner();
             secondInnTeam = StringUtils.equals(matchInput.getTeam1(),matchInput.getToss_winner())
-                    ? match.getTeam2() :  match.getTeam1();
+                    ? matchInput.getTeam2() :  matchInput.getTeam1();
         }else{
             secondInnTeam = matchInput.getToss_winner();
-            firstInnTeam = StringUtils.equals(matchInput.getTeam1(),matchInput.getToss_winner())
-                    ? match.getTeam2() :  match.getTeam1();
+            firstInnTeam = StringUtils.equals(matchInput.getTeam2(),matchInput.getToss_winner())
+                    ? matchInput.getTeam1() :  matchInput.getTeam2();
         }
 
         match.setTeam1(firstInnTeam);

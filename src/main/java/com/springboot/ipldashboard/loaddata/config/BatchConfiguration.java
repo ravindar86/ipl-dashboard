@@ -1,7 +1,8 @@
-package com.springboot.ipldashboard.data.config;
+package com.springboot.ipldashboard.loaddata.config;
 
-import com.springboot.ipldashboard.data.MatchInput;
-import com.springboot.ipldashboard.data.processor.MatchDataProcessor;
+import com.springboot.ipldashboard.loaddata.data.MatchInput;
+import com.springboot.ipldashboard.loaddata.notification.JobCompletionNotificationListener;
+import com.springboot.ipldashboard.loaddata.processor.MatchDataProcessor;
 import com.springboot.ipldashboard.model.Match;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -39,7 +40,7 @@ public class BatchConfiguration {
     /**
      * reader() creates an ItemReader. It looks for a file called sample-data.csv and parses each line item
      * with enough information to turn it into a Person.
-     * @return
+     * @return FlatFileItemReader<MatchInput>
      */
     @Bean
     public FlatFileItemReader<MatchInput> reader() {
@@ -48,7 +49,7 @@ public class BatchConfiguration {
                 .resource(new ClassPathResource("match-data.csv"))
                 .delimited()
                 .names(FIELD_NAMES)
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<MatchInput>() {{
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
                     setTargetType(MatchInput.class);
                 }})
                 .build();
@@ -57,7 +58,7 @@ public class BatchConfiguration {
     /**
      * processor() creates an instance of the MatchDataProcessor that you defined earlier,
      * meant to map the data to the entity.
-     * @return
+     * @return MatchDataProcessor
      */
     @Bean
     public MatchDataProcessor processor() {
@@ -69,7 +70,7 @@ public class BatchConfiguration {
      * a copy of the dataSource created by @EnableBatchProcessing. It includes the SQL statement needed to
      * insert a single Match, driven by Java bean properties.
      * @param dataSource
-     * @return
+     * @return JdbcBatchItemWriter<Match>
      */
     @Bean
     public JdbcBatchItemWriter<Match> writer(DataSource dataSource) {

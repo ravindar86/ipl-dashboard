@@ -1,4 +1,4 @@
-package com.springboot.ipldashboard.data;
+package com.springboot.ipldashboard.loaddata.data;
 
 public class MatchInput {
 

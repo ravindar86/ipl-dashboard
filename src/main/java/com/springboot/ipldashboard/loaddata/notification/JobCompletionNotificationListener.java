@@ -1,6 +1,5 @@
-package com.springboot.ipldashboard.data.config;
+package com.springboot.ipldashboard.loaddata.notification;
 
-import com.springboot.ipldashboard.model.Match;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -27,8 +26,8 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
       log.info("!!! JOB FINISHED! Time to verify the results");
 
-      jdbcTemplate.query("SELECT team1, team2, date FROM match",
-        (rs, row) -> "Team 1 "+rs.getString(1)+" Team 2 "+rs.getString(2)+" Date "+rs.getString(3)
+      jdbcTemplate.query("SELECT team1, team2, date, match_winner FROM match",
+        (rs, row) -> "Team 1 "+rs.getString(1)+" Team 2 "+rs.getString(2)+" Date "+rs.getString(3)+" Winner -> "+rs.getString(4)
       ).forEach(str -> System.out.println(str));
     }
   }
