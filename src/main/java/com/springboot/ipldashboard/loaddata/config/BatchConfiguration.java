@@ -39,7 +39,7 @@ public class BatchConfiguration {
 
     /**
      * reader() creates an ItemReader. It looks for a file called sample-data.csv and parses each line item
-     * with enough information to turn it into a Person.
+     * with enough information to turn it into a MatchInput.
      * @return FlatFileItemReader<MatchInput>
      */
     @Bean
@@ -49,7 +49,7 @@ public class BatchConfiguration {
                 .resource(new ClassPathResource("match-data.csv"))
                 .delimited()
                 .names(FIELD_NAMES)
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<MatchInput>() {{
                     setTargetType(MatchInput.class);
                 }})
                 .build();
